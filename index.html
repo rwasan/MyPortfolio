@@ -400,14 +400,23 @@
 
   const data = await res.json();
 
-  // Support multiple possible response shapes
-  const reply =
-    data.reply ||
-    (data.body && data.body.reply) ||
-    (typeof data === 'string' ? data : JSON.stringify(data));
+// Handle different API response formats
+let reply = '';
 
-  // Simulate streaming rendering for the reply
-  await streamTextToMessage(String(reply));
+if (Array.isArray(data) && data.length > 0) {
+  // Example: [{"ai_message": "Hello..."}]
+  reply = data[0].ai_message || JSON.stringify(data[0]);
+} else if (typeof data === 'object' && data !== null) {
+  reply = data.ai_message || data.reply || JSON.stringify(data);
+} else if (typeof data === 'string') {
+  reply = data;
+} else {
+  reply = JSON.stringify(data);
+}
+
+// Display only the message text
+await streamTextToMessage(String(reply));
+
 } catch (err) {
   removeTypingIndicator();
   renderMessage({ who: 'bot', text: 'Network error: ' + err.message, ts: Date.now() });
