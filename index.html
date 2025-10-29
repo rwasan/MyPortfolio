@@ -321,25 +321,39 @@
         chatInput.value = '';
         // show typing indicator
         appendTypingIndicator();
-        try{
-          const payload = { message: text, sessionId, source: 'portfolio-website' };
-          const res = await fetch(WEBHOOK_URL, {
-            method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload)
-          });
-          removeTypingIndicator();
-          if(!res.ok){
-            renderMessage({ who:'bot', text: 'Server error: ' + res.statusText, ts: Date.now() });
-            return;
-          }
-          const data = await res.json();
-          // Support multiple possible response shapes
-          const reply = data.reply || (data.body && data.body.reply) || (typeof data === 'string' ? data : JSON.stringify(data));
-          // If you want streaming from the server, the server must send chunks. Here we simulate streaming rendering for any reply string.
-          await streamTextToMessage(String(reply));
-        }catch(err){
-          removeTypingIndicator();
-          renderMessage({ who:'bot', text: 'Network error: ' + err.message, ts: Date.now() });
-        }
+       try {
+  const params = new URLSearchParams({
+    message: text,
+    sessionId,
+    source: 'portfolio-website'
+  });
+
+  const res = await fetch(`${WEBHOOK_URL}?${params.toString()}`, {
+    method: 'GET'
+  });
+
+  removeTypingIndicator();
+
+  if (!res.ok) {
+    renderMessage({ who: 'bot', text: 'Server error: ' + res.statusText, ts: Date.now() });
+    return;
+  }
+
+  const data = await res.json();
+
+  // Support multiple possible response shapes
+  const reply =
+    data.reply ||
+    (data.body && data.body.reply) ||
+    (typeof data === 'string' ? data : JSON.stringify(data));
+
+  // Simulate streaming rendering for the reply
+  await streamTextToMessage(String(reply));
+} catch (err) {
+  removeTypingIndicator();
+  renderMessage({ who: 'bot', text: 'Network error: ' + err.message, ts: Date.now() });
+}
+
       }
 
       // UI handlers
