@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Rahul Wasan | Lead Consultant Portfolio</title>
+  <meta name="description" content="Rahul Wasan - Lead Consultant. Portfolio showcasing skills, experience and projects." />
+  <style>
+    /* --- Basic variables & theming --- */
+    :root{--bg:#f5f7fa;--text:#111;--accent:#64ffda;--card:#fff;--header:#0a192f;--footer:#0a192f;--shadow:rgba(0,0,0,0.1);} 
+    [data-theme='dark']{--bg:#071028;--text:#e6eef6;--accent:#64ffda;--card:#092033;--header:#020b16;--footer:#020b16;--shadow:rgba(255,255,255,0.04);} 
+    *{box-sizing:border-box;margin:0;padding:0}html{scroll-behavior:smooth}body{font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Helvetica Neue',Arial;color:var(--text);background:var(--bg);line-height:1.6}
+    header{background:var(--header);color:#fff;padding:2rem 1rem 1.2rem;text-align:center}
+    header h1{font-size:1.9rem;margin-bottom:6px}header h2{color:var(--accent);font-weight:400}
+    nav{position:sticky;top:0;background:var(--header);box-shadow:0 2px 8px var(--shadow);z-index:1000}
+    nav ul{display:flex;justify-content:center;gap:1rem;list-style:none;padding:.75rem 1rem}
+    nav a{color:var(--accent);font-weight:600;text-decoration:none;padding:.25rem;border-bottom:2px solid transparent}
+    nav a.active,nav a:hover{color:#fff;border-bottom-color:var(--accent)}
+    main{max-width:1100px;margin:1.25rem auto;padding:0 1rem}
+    section{background:var(--card);padding:1.25rem;border-radius:12px;box-shadow:0 2px 8px var(--shadow);margin-bottom:1.25rem;opacity:0;transform:translateY(40px);transition:opacity .6s ease,transform .6s ease}
+    section.visible{opacity:1;transform:none}
+    h3{border-bottom:2px solid var(--accent);display:inline-block;padding-bottom:.25rem;margin-bottom:.75rem}
+    .skills-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:.75rem}
+    .projects-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:.75rem}
+    .project-card{padding:.9rem;border-radius:10px;background:var(--card);box-shadow:0 2px 6px var(--shadow);transition:transform .18s,box-shadow .18s}
+    .project-card:hover{transform:translateY(-6px);box-shadow:0 8px 18px var(--shadow)}
+    .exp-item{margin-bottom:.9rem}
+    footer{background:var(--footer);color:#fff;text-align:center;padding:1rem;margin-top:1rem}
+
+    /* Chat widget styles */
+    .chat-launch{position:fixed;right:20px;bottom:20px;background:var(--accent);border-radius:50%;width:56px;height:56px;border:none;display:flex;align-items:center;justify-content:center;font-size:22px;cursor:pointer;box-shadow:0 6px 18px var(--shadow);z-index:1200}
+    .chat-window{position:fixed;right:20px;bottom:86px;width:360px;max-width:calc(100% - 40px);height:480px;background:var(--card);border-radius:12px;box-shadow:0 10px 30px var(--shadow);display:flex;flex-direction:column;overflow:hidden;z-index:1200}
+    .chat-header{background:var(--header);color:#fff;padding:.8rem 1rem;display:flex;align-items:center;justify-content:space-between}
+    .chat-messages{flex:1;padding:1rem;overflow:auto}
+    .msg{margin-bottom:.75rem;max-width:80%}
+    .msg.user{align-self:flex-end;background:var(--accent);color:#000;padding:.5rem .75rem;border-radius:12px}
+    .msg.bot{align-self:flex-start;background:rgba(0,0,0,0.06);padding:.5rem .75rem;border-radius:12px;color:var(--text)}
+    .chat-input{display:flex;padding:.6rem;border-top:1px solid rgba(0,0,0,0.06)}
+    .chat-input input{flex:1;padding:.6rem .75rem;border-radius:8px;border:1px solid #ddd;margin-right:.5rem}
+    .chat-input button{padding:.5rem .8rem;border-radius:8px;border:none;background:var(--accent);cursor:pointer}
+
+    @media (max-width:640px){.chat-window{right:12px;left:12px;width:auto;height:420px}}
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Rahul Wasan</h1>
+    <h2>Lead Consultant | HCL Technologies</h2>
+    <p style="margin-top:8px">Delhi, India | +91-9716664404 | <a href="mailto:rahul.wasan@yahoo.com" style="color:var(--accent)">rahul.wasan@yahoo.com</a></p>
+    <p style="margin-top:6px"><a href="https://www.linkedin.com/in/rahul-wasan-70465278/" target="_blank" style="color:var(--accent)">LinkedIn Profile</a></p>
+  </header>
+
+  <nav>
+    <ul>
+      <li><a href="#summary" class="active">Home</a></li>
+      <li><a href="#skills">Skills</a></li>
+      <li><a href="#projects">Projects</a></li>
+      <li><a href="#experience">Experience</a></li>
+      <li><a href="#education">Education</a></li>
+      <li><a href="#awards">Awards</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </nav>
+
+  <main>
+    <section id="summary">
+      <h3>Professional Summary</h3>
+      <p>Results-driven Lead Consultant with 12+ years of experience leading global, cross-functional teams to architect, build, and deliver enterprise-grade software solutions. Skilled in Agile delivery, cloud modernization, and AI-assisted development with proven success managing engineers, optimizing SDLC processes, and aligning technology initiatives with business goals.</p>
+    </section>
+
+    <section id="skills">
+      <h3>Technical Skills</h3>
+      <div class="skills-grid">
+        <div><strong>Backend:</strong><ul><li>.NET 6/8, .NET Core, Web API, C#, GraphQL</li></ul></div>
+        <div><strong>Frontend:</strong><ul><li>Angular, TypeScript, JavaScript, CSS, HTML, PrimeNG</li></ul></div>
+        <div><strong>AI Tools:</strong><ul><li>GitHub Copilot Agentic Mode, Microsoft Copilot</li></ul></div>
+        <div><strong>Databases:</strong><ul><li>SQL Server, Azure SQL, MongoDB</li></ul></div>
+        <div><strong>Cloud & DevOps:</strong><ul><li>Azure, Terraform, TeamCity, Octopus, Azure Data Factory</li></ul></div>
+        <div><strong>Project Management:</strong><ul><li>Azure Kanban, JIRA, Version One</li></ul></div>
+      </div>
+    </section>
+
+    <section id="projects">
+      <h3>Highlighted Projects</h3>
+      <div class="projects-grid">
+        <div class="project-card"><h4>BBC Studios Support Suite</h4><p>Led BAU operations and enhancements for 30+ enterprise apps, integrating Azure services and GitHub Copilot-driven automation.</p></div>
+        <div class="project-card"><h4>Actuarial Analysis Tool (Aetna US)</h4><p>Modernized frontend using Angular 7 and refactored backend APIs with lazy loading to optimize response times by 40%.</p></div>
+        <div class="project-card"><h4>Enquiry Management System</h4><p>Developed in .NET MVC with Bootstrap UI; implemented search and reporting features improving usability for Akash Education Services.</p></div>
+      </div>
+    </section>
+
+    <section id="experience">
+      <h3>Work Experience</h3>
+      <div class="exp-item"><h4>Lead Consultant | HCL Technologies</h4><span>Nov 2021 – Present, Delhi</span>
+        <ul><li>Leading BAU operations for BBC Studios UK across 30+ applications with a team of 10 engineers.</li>
+        <li>Implemented authentication via Azure AD and JWT, and integrated SonarQube for code quality.</li>
+        <li>Trained team on GitHub Copilot agentic mode to boost productivity.</li>
+        <li>Designed Azure SQL Data Warehouse and pipelines using ADF.</li></ul></div>
+
+      <div class="exp-item"><h4>Technical Lead | Sopra Steria</h4><span>Sep 2019 – Nov 2021, Noida</span>
+        <ul><li>Enhanced ATTS product using .NET MVC and Angular; implemented JWT-based client-side authentication.</li>
+        <li>Led PI planning, estimation, and code review sessions.</li></ul></div>
+
+      <div class="exp-item"><h4>Senior Business Analyst | EXL Services</h4><span>Apr 2018 – Sep 2019, Noida</span>
+        <ul><li>Managed and upgraded IBNR tool for actuarial analysis; migrated frontend from AngularJS to Angular 7.</li>
+        <li>Optimized API architecture with lazy loading for performance gains.</li></ul></div>
+
+      <div class="exp-item"><h4>Sr. Associate - Technology | Synechron</h4><span>Jun 2015 – Mar 2018, Pune</span>
+        <ul><li>Developed reusable components and implemented custom MVC filters and model binding.</li></ul></div>
+
+      <div class="exp-item"><h4>Software Developer | CPM India</h4><span>Dec 2014 – May 2015, Delhi</span>
+        <ul><li>Created .NET Web APIs and optimized stored procedures based on business requirements.</li></ul></div>
+
+      <div class="exp-item"><h4>.NET Developer | Radix Infor Solutions</h4><span>Mar 2014 – Dec 2014, Delhi</span>
+        <ul><li>Developed Enquiry Management System using .NET MVC and Bootstrap.</li></ul></div>
+    </section>
+
+    <section id="education">
+      <h3>Education & Certifications</h3>
+      <ul>
+        <li><strong>Bachelor of Technology in IT</strong> – Kurukshetra University (2009–2013)</li>
+        <li>Microsoft Certified: Azure Fundamentals – Jan 2023</li>
+        <li>AWS Certified Cloud Practitioner – Jun 2022</li>
+      </ul>
+    </section>
+
+    <section id="awards">
+      <h3>Awards</h3>
+      <ul>
+        <li>Surpass Award – Synechron</li>
+        <li>Pinnacle Award – Sopra Steria</li>
+        <li>2 Good – HCL Technologies</li>
+      </ul>
+    </section>
+
+    <section id="contact">
+      <h3>Contact</h3>
+      <p>If you'd like to collaborate or get in touch, feel free to reach out via <a href="mailto:rahul.wasan@yahoo.com">rahul.wasan@yahoo.com</a> or connect on <a href="https://www.linkedin.com/in/rahul-wasan-70465278/">LinkedIn</a>.</p>
+    </section>
+
+  </main>
+
+  <footer>
+    <p>© 2025 Rahul Wasan | <a href="mailto:rahul.wasan@yahoo.com">Contact Me</a></p>
+  </footer>
+
+  <!-- Chat widget launcher -->
+  <button class="chat-launch" id="chatToggle" aria-label="Open chat">💬</button>
+
+  <!-- Chat window (hidden by default) -->
+  <div class="chat-window" id="chatWindow" style="display:none" role="dialog" aria-label="Chat with Rahul">
+    <div class="chat-header">
+      <div>Chat with Rahul</div>
+      <button id="chatClose" style="background:transparent;border:none;color:#fff;cursor:pointer">✕</button>
+    </div>
+    <div class="chat-messages" id="chatMessages"></div>
+    <div class="chat-input">
+      <input id="chatInput" placeholder="Type your message..." aria-label="Type your message" />
+      <button id="chatSend">Send</button>
+    </div>
+  </div>
+
+  <!-- Floating theme toggle (persisted) -->
+  <button id="themeBtn" class="chat-launch" style="right:92px;">🌓</button>
+
+  <script>
+    /* ---------------- Theme handling ---------------- */
+    (function(){
+      const saved = localStorage.getItem('theme')||'light';
+      document.documentElement.setAttribute('data-theme', saved==='dark'?'dark':'');
+      const themeBtn = document.getElementById('themeBtn');
+      themeBtn.addEventListener('click',()=>{
+        const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+        document.documentElement.setAttribute('data-theme', isDark ? '' : 'dark');
+        localStorage.setItem('theme', isDark ? 'light' : 'dark');
+      });
+    })();
+
+    /* ---------------- Active nav links on scroll ---------------- */
+    (function(){
+      const links = document.querySelectorAll('nav a');
+      function onScroll(){
+        const offset = window.scrollY + 120;
+        links.forEach(l=>{
+          const s = document.querySelector(l.getAttribute('href'));
+          if(!s) return;
+          if(s.offsetTop <= offset && s.offsetTop + s.offsetHeight > offset){
+            links.forEach(x=>x.classList.remove('active')); l.classList.add('active');
+          }
+        });
+      }
+      window.addEventListener('scroll', onScroll); onScroll();
+    })();
+
+    /* ---------------- Scroll reveal using IntersectionObserver ---------------- */
+    (function(){
+      const obs = new IntersectionObserver(entries=>{
+        entries.forEach(e=>{ if(e.isIntersecting) e.target.classList.add('visible'); });
+      },{threshold:0.18});
+      document.querySelectorAll('main section').forEach(s=>obs.observe(s));
+    })();
+
+    /* ---------------- Chat widget: n8n integration ---------------- */
+    (function(){
+      const chatToggle = document.getElementById('chatToggle');
+      const chatWindow = document.getElementById('chatWindow');
+      const chatClose = document.getElementById('chatClose');
+      const chatSend = document.getElementById('chatSend');
+      const chatInput = document.getElementById('chatInput');
+      const chatMessages = document.getElementById('chatMessages');
+
+      // Replace this placeholder with your real n8n webhook URL
+      const WEBHOOK_URL = 'https://your-n8n.example.com/webhook/rahul-chat';
+
+      function openChat(){ chatWindow.style.display='flex'; chatInput.focus(); }
+      function closeChat(){ chatWindow.style.display='none'; }
+
+      chatToggle.addEventListener('click', ()=>{
+        if(chatWindow.style.display==='none' || chatWindow.style.display==='') openChat(); else closeChat();
+      });
+      chatClose.addEventListener('click', closeChat);
+
+      function appendMessage(text, who='bot'){
+        const d = document.createElement('div'); d.className = 'msg '+(who==='user'?'user':'bot'); d.textContent = text; chatMessages.appendChild(d); chatMessages.scrollTop = chatMessages.scrollHeight;
+      }
+
+      async function sendMessage(){
+        const text = chatInput.value.trim(); if(!text) return; appendMessage(text,'user'); chatInput.value='';
+        // Show temporary typing indicator
+        appendMessage('Typing...', 'bot');
+        try{
+          const res = await fetch(WEBHOOK_URL, {
+            method: 'POST', headers: { 'Content-Type':'application/json' },
+            body: JSON.stringify({ message: text, source: 'portfolio-website' })
+          });
+          // Remove typing indicator (last bot message)
+          const msgs = chatMessages.querySelectorAll('.msg.bot'); if(msgs.length) msgs[msgs.length-1].remove();
+
+          if(!res.ok){ appendMessage('Sorry — failed to contact the server.'); return; }
+          const data = await res.json();
+          // Expecting { reply: '...' }
+          if(data && data.reply) appendMessage(data.reply, 'bot'); else if(data && data.body && data.body.reply) appendMessage(data.body.reply,'bot');
+          else appendMessage(JSON.stringify(data).slice(0,300),'bot');
+        }catch(err){
+          const msgs = chatMessages.querySelectorAll('.msg.bot'); if(msgs.length) msgs[msgs.length-1].remove();
+          appendMessage('Network error: '+err.message,'bot');
+        }
+      }
+
+      chatSend.addEventListener('click', sendMessage);
+      chatInput.addEventListener('keydown', e=>{ if(e.key === 'Enter') sendMessage(); });
+
+      // For accessibility: close chat on Escape
+      document.addEventListener('keydown', e=>{ if(e.key==='Escape') closeChat(); });
+    })();
+  </script>
+</body>
+</html>
