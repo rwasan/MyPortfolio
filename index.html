@@ -1,153 +1,429 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Rahul Wasan | Lead Consultant Portfolio</title>
   <meta name="description" content="Rahul Wasan - Lead Consultant. Portfolio showcasing skills, experience and projects." />
+  <!-- Optional: Google Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
   <style>
-    :root{--bg:#f5f7fa;--text:#111;--accent:#64ffda;--card:#fff;--header:#0a192f;--footer:#0a192f;--shadow:rgba(0,0,0,0.1)}
-    [data-theme='dark']{--bg:#071028;--text:#e6eef6;--accent:#64ffda;--card:#092033;--header:#020b16;--footer:#020b16;--shadow:rgba(255,255,255,0.04)}
-    *{box-sizing:border-box;margin:0;padding:0}html{scroll-behavior:smooth}body{font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Helvetica Neue',Arial;color:var(--text);background:var(--bg);line-height:1.6}
-    header{background:var(--header);color:#fff;padding:2rem 1rem 1.2rem;text-align:center}
-    header h1{font-size:1.9rem;margin-bottom:6px}header h2{color:var(--accent);font-weight:400}
-    nav{position:sticky;top:0;background:var(--header);box-shadow:0 2px 8px var(--shadow);z-index:1000}
-    nav ul{display:flex;justify-content:center;gap:1rem;list-style:none;padding:.75rem 1rem}
-    nav a{color:var(--accent);font-weight:600;text-decoration:none;padding:.25rem;border-bottom:2px solid transparent}
-    nav a.active,nav a:hover{color:#fff;border-bottom-color:var(--accent)}
-    main{max-width:1100px;margin:1.25rem auto;padding:0 1rem}
-    section{background:var(--card);padding:1.25rem;border-radius:12px;box-shadow:0 2px 8px var(--shadow);margin-bottom:1.25rem;opacity:0;transform:translateY(40px);transition:opacity .6s ease,transform .6s ease}
-    section.visible{opacity:1;transform:none}
-    h3{border-bottom:2px solid var(--accent);display:inline-block;padding-bottom:.25rem;margin-bottom:.75rem}
-    .skills-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:.75rem}
-    .projects-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:.75rem}
-    .project-card{padding:.9rem;border-radius:10px;background:var(--card);box-shadow:0 2px 6px var(--shadow);transition:transform .18s,box-shadow .18s}
-    .project-card:hover{transform:translateY(-6px);box-shadow:0 8px 18px var(--shadow)}
-    .exp-item{margin-bottom:.9rem}
-    footer{background:var(--footer);color:#fff;text-align:center;padding:1rem;margin-top:1rem}
+    /* =========================
+       Design tokens & defaults
+       ========================= */
+    :root{
+      --bg: #0b1220;
+      --panel: #08121c;
+      --muted: #93a4b6;
+      --text: #e8f1f8;
+      --accent: #64ffda;
+      --card: #0f1a26;
+      --glass: rgba(255,255,255,0.03);
+      --shadow: 0 6px 20px rgba(2,8,23,0.6);
+      --radius: 14px;
+      --maxwidth: 1100px;
+      --nav-height: 64px;
+      --transition: 220ms cubic-bezier(.2,.9,.3,1);
+    }
+    /* Light theme (toggle will set data-theme="light") */
+    html[data-theme="light"]{
+      --bg: #f5f7fa;
+      --panel: #ffffff;
+      --muted: #4a5568;
+      --text: #0b1220;
+      --accent: #006d5b;
+      --card: #ffffff;
+      --glass: rgba(0,0,0,0.04);
+      --shadow: 0 6px 18px rgba(20,20,20,0.06);
+    }
 
-    /* Chat widget styles */
-    .chat-launch{position:fixed;right:20px;bottom:20px;background:var(--accent);border-radius:50%;width:56px;height:56px;border:none;display:flex;align-items:center;justify-content:center;font-size:22px;cursor:pointer;box-shadow:0 6px 18px var(--shadow);z-index:1200}
-    .chat-window{position:fixed;right:20px;bottom:86px;width:360px;max-width:calc(100% - 40px);height:520px;background:var(--card);border-radius:12px;box-shadow:0 10px 30px var(--shadow);display:flex;flex-direction:column;overflow:hidden;z-index:1200}
-    .chat-header{background:var(--header);color:#fff;padding:.8rem 1rem;display:flex;align-items:center;justify-content:space-between}
-    .chat-messages{flex:1;padding:1rem;overflow:auto;display:flex;flex-direction:column;gap:.5rem}
-    .msg{max-width:85%;padding:.5rem .75rem;border-radius:12px;display:inline-block}
-    .msg.user{align-self:flex-end;background:var(--accent);color:#000;border-bottom-right-radius:4px}
-    .msg.bot{align-self:flex-start;background:rgba(0,0,0,0.06);color:var(--text);border-bottom-left-radius:4px}
-    .meta{font-size:11px;color:rgba(0,0,0,0.45);margin-top:4px}
-    .meta.dark{color:rgba(255,255,255,0.5)}
-    .typing{display:inline-block;font-style:normal;padding:.25rem .5rem;border-radius:8px;background:rgba(0,0,0,0.04);}
-    .dots span{display:inline-block;width:6px;height:6px;margin:0 2px;border-radius:50%;background:rgba(0,0,0,0.3);animation:blink 1s infinite;}
-    .dots span:nth-child(2){animation-delay:.15s} .dots span:nth-child(3){animation-delay:.3s}
-    @keyframes blink{0%{opacity:.2}50%{opacity:1}100%{opacity:.2}}
-    .chat-input{display:flex;padding:.6rem;border-top:1px solid rgba(0,0,0,0.06)}
-    .chat-input input{flex:1;padding:.6rem .75rem;border-radius:8px;border:1px solid #ddd;margin-right:.5rem}
-    .chat-input button{padding:.5rem .8rem;border-radius:8px;border:none;background:var(--accent);cursor:pointer}
+    /* =========================
+       Base resets & typography
+       ========================= */
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial;
+      background:linear-gradient(180deg,var(--bg),#05101a);
+      color:var(--text);
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+      line-height:1.5;
+      -webkit-text-size-adjust:100%;
+      transition: background var(--transition);
+    }
+    a{color:var(--accent);text-decoration:none}
+    a:hover{text-decoration:underline}
 
-    @media (max-width:640px){.chat-window{right:12px;left:12px;width:auto;height:420px}}
+    /* =========================
+       Layout
+       ========================= */
+    .wrap{
+      max-width:var(--maxwidth);
+      margin:18px auto;
+      padding:16px;
+    }
+
+    /* Header & hero */
+    header.site-header{
+      display:flex;
+      align-items:center;
+      gap:12px;
+      background:linear-gradient(180deg, rgba(255,255,255,0.02), transparent);
+      border-radius:12px;
+      padding:14px;
+      box-shadow:var(--shadow);
+      backdrop-filter: blur(6px);
+      position:relative;
+    }
+    .brand{
+      display:flex;
+      gap:12px;
+      align-items:center;
+      min-width:0;
+    }
+    .avatar{
+      width:64px;height:64px;border-radius:12px;background:linear-gradient(135deg,var(--accent),#2de1b2);display:flex;align-items:center;justify-content:center;font-weight:800;color:#002;flex:0 0 64px;
+      box-shadow:0 6px 18px rgba(0,0,0,0.35);
+    }
+    .title{
+      min-width:0;
+    }
+    .title h1{
+      font-size:1.05rem;
+      margin:0 0 4px 0;
+      font-weight:700;
+      letter-spacing:0.2px;
+    }
+    .title p{margin:0;font-size:0.9rem;color:var(--muted);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+
+    /* Top controls */
+    .top-controls{
+      margin-left:auto;display:flex;gap:10px;align-items:center;
+    }
+    .btn{
+      display:inline-flex;align-items:center;gap:8px;padding:8px 12px;border-radius:10px;border:1px solid transparent;background:var(--panel);color:var(--text);cursor:pointer;font-weight:600;font-size:0.9rem;
+      transition:transform 160ms ease, box-shadow 160ms ease;
+    }
+    .btn:active{transform:translateY(1px)}
+    .btn.ghost{background:transparent;border:1px solid rgba(255,255,255,0.04)}
+    .icon-btn{width:44px;height:44px;border-radius:10px;display:inline-grid;place-items:center;font-size:18px;background:var(--glass);border:1px solid rgba(255,255,255,0.02)}
+
+    /* Navigation - mobile drawer */
+    .navbar{
+      margin-top:12px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:12px;
+    }
+    .nav-toggle{display:flex;gap:8px}
+    .hamburger{
+      display:inline-grid;place-items:center;width:46px;height:46px;border-radius:10px;background:var(--glass);border:1px solid rgba(255,255,255,0.03);cursor:pointer;
+    }
+    nav.primary{
+      display:flex;
+      gap:10px;
+      align-items:center;
+      padding:8px;
+      border-radius:10px;
+      background:linear-gradient(180deg, rgba(255,255,255,0.01), transparent);
+    }
+    nav.primary a{padding:8px 12px;border-radius:8px;color:var(--muted);font-weight:600;font-size:0.9rem}
+    nav.primary a.active, nav.primary a:hover{color:var(--text);background:transparent;border-bottom:2px solid var(--accent)}
+
+    /* Drawer overlay for small screens */
+    .drawer{
+      position:fixed;inset:0;display:none;align-items:flex-start;padding:20px;z-index:1400;
+    }
+    .drawer .panel{
+      width:100%;max-width:360px;background:var(--card);border-radius:14px;padding:14px;box-shadow:var(--shadow);
+    }
+    .drawer .panel a{display:block;padding:12px 10px;border-radius:8px;color:var(--text);margin-bottom:6px}
+    .drawer .backdrop{position:fixed;inset:0;background:rgba(0,0,0,0.4);}
+
+    /* Main content sections */
+    main{
+      margin-top:14px;
+      display:grid;
+      gap:14px;
+    }
+    .grid{
+      display:grid;
+      gap:12px;
+    }
+    /* layout for larger screens: sidebar + content */
+    .layout{
+      display:grid;
+      grid-template-columns: 1fr;
+      gap:14px;
+    }
+
+    /* Card */
+    .card{
+      background:linear-gradient(180deg,var(--card), rgba(255,255,255,0.01));
+      padding:14px;
+      border-radius:var(--radius);
+      box-shadow:var(--shadow);
+    }
+    h2.section-title{margin:0 0 8px 0;color:var(--accent);font-size:1rem;border-bottom:2px solid rgba(100,255,218,0.06);display:inline-block;padding-bottom:6px}
+    p.lead{color:var(--muted);margin-top:8px}
+
+    /* Skills / Projects grids */
+    .skills-grid{
+      display:grid;
+      grid-template-columns:repeat(2,1fr);
+      gap:10px;
+    }
+    .skill{
+      background:linear-gradient(180deg, rgba(255,255,255,0.01), transparent);
+      padding:10px;border-radius:10px;border:1px solid rgba(255,255,255,0.02);
+    }
+    .projects-grid{
+      display:grid;
+      grid-template-columns:1fr;
+      gap:10px;
+    }
+    .project{
+      padding:12px;border-radius:12px;background:linear-gradient(180deg, rgba(255,255,255,0.01), transparent);border:1px solid rgba(255,255,255,0.02)
+    }
+    .project h4{margin:0 0 6px 0;font-size:1rem}
+
+    /* Experience list */
+    .exp-list{display:flex;flex-direction:column;gap:10px}
+    .exp-item{padding:10px;border-radius:10px;background:var(--panel);border:1px solid rgba(255,255,255,0.02)}
+    .exp-item h4{margin:0;font-size:0.98rem}
+    .exp-item span{display:block;color:var(--muted);font-size:0.85rem;margin-top:6px}
+
+    /* Footer */
+    footer.site-footer{margin-top:8px;padding:12px;border-radius:12px;background:linear-gradient(180deg, rgba(255,255,255,0.02), transparent);text-align:center;color:var(--muted);font-size:0.9rem}
+
+    /* Chat widget */
+    .chat-launch{position:fixed;right:18px;bottom:18px;background:var(--accent);border-radius:50%;width:56px;height:56px;border:none;display:flex;align-items:center;justify-content:center;font-size:22px;cursor:pointer;box-shadow:var(--shadow);z-index:1500}
+    .chat-window{position:fixed;right:18px;bottom:86px;width:360px;max-width:calc(100% - 40px);height:520px;background:var(--card);border-radius:14px;box-shadow:var(--shadow);display:flex;flex-direction:column;overflow:hidden;z-index:1500}
+    .chat-header{background:linear-gradient(90deg, rgba(255,255,255,0.02), transparent);color:var(--text);padding:12px 14px;display:flex;align-items:center;justify-content:space-between}
+    .chat-messages{flex:1;padding:12px;overflow:auto;display:flex;flex-direction:column;gap:8px;background:linear-gradient(180deg, rgba(255,255,255,0.01), transparent)}
+    .msg{max-width:86%;padding:8px 10px;border-radius:12px;display:inline-block;word-break:break-word}
+    .msg.user{align-self:flex-end;background:var(--accent);color:#002;border-bottom-right-radius:6px}
+    .msg.bot{align-self:flex-start;background:rgba(255,255,255,0.03);color:var(--text);border-bottom-left-radius:6px}
+    .meta{font-size:11px;color:var(--muted);margin-top:4px}
+    .chat-input{display:flex;padding:10px;border-top:1px solid rgba(255,255,255,0.03)}
+    .chat-input input{flex:1;padding:10px;border-radius:10px;border:1px solid rgba(255,255,255,0.04);margin-right:8px;background:transparent;color:var(--text)}
+    .chat-input button{padding:10px 12px;border-radius:10px;border:none;background:var(--accent);color:#002;font-weight:700;cursor:pointer}
+
+    /* =========================
+       Responsive breakpoints
+       ========================= */
+    @media (min-width:700px){
+      .layout{grid-template-columns: 320px 1fr}
+      .skills-grid{grid-template-columns:repeat(2,1fr)}
+      .projects-grid{grid-template-columns:repeat(2,1fr)}
+      nav.primary{display:flex}
+      .drawer{display:none}
+    }
+    @media (min-width:980px){
+      .brand .avatar{width:72px;height:72px;flex:0 0 72px}
+      .title h1{font-size:1.25rem}
+      .projects-grid{grid-template-columns:repeat(3,1fr)}
+    }
+
+    /* Mobile adjustments */
+    @media (max-width:699px){
+      .nav-toggle .nav-label{display:none}
+      nav.primary{display:none}
+      .drawer{display:flex}
+      .layout{grid-template-columns:1fr}
+      .skills-grid{grid-template-columns:repeat(2,1fr)}
+      .project, .skill{font-size:0.95rem}
+      .chat-window{left:12px;right:12px;width:auto;height:420px}
+      .top-controls{gap:8px}
+    }
   </style>
 </head>
 <body>
-  <header>
-    <h1>Rahul Wasan</h1>
-    <h2>Lead Consultant | HCL Technologies</h2>
-    <p style="margin-top:8px">Delhi, India | +91-9716664404 | <a href="mailto:rahul.wasan@yahoo.com" style="color:var(--accent)">rahul.wasan@yahoo.com</a></p>
-    <p style="margin-top:6px"><a href="https://www.linkedin.com/in/rahul-wasan-70465278/" target="_blank" style="color:var(--accent)">LinkedIn Profile</a></p>
-  </header>
-
-  <nav>
-    <ul>
-      <li><a href="#summary" class="active">Home</a></li>
-      <li><a href="#skills">Skills</a></li>
-      <li><a href="#projects">Projects</a></li>
-      <li><a href="#experience">Experience</a></li>
-      <li><a href="#education">Education</a></li>
-      <li><a href="#awards">Awards</a></li>
-      <li><a href="#contact">Contact</a></li>
-    </ul>
-  </nav>
-
-  <main>
-    <section id="summary">
-      <h3>Professional Summary</h3>
-      <p>Results-driven Lead Consultant with 12+ years of experience leading global, cross-functional teams to architect, build, and deliver enterprise-grade software solutions. Skilled in Agile delivery, cloud modernization, and AI-assisted development with proven success managing engineers, optimizing SDLC processes, and aligning technology initiatives with business goals.</p>
-    </section>
-
-    <section id="skills">
-      <h3>Technical Skills</h3>
-      <div class="skills-grid">
-        <div><strong>Backend:</strong><ul><li>.NET 6/8, .NET Core, Web API, C#, GraphQL</li></ul></div>
-        <div><strong>Frontend:</strong><ul><li>Angular, TypeScript, JavaScript, CSS, HTML, PrimeNG</li></ul></div>
-        <div><strong>AI Tools:</strong><ul><li>GitHub Copilot Agentic Mode, Microsoft Copilot</li></ul></div>
-        <div><strong>Databases:</strong><ul><li>SQL Server, Azure SQL, MongoDB</li></ul></div>
-        <div><strong>Cloud & DevOps:</strong><ul><li>Azure, Terraform, TeamCity, Octopus, Azure Data Factory</li></ul></div>
-        <div><strong>Project Management:</strong><ul><li>Azure Kanban, JIRA, Version One</li></ul></div>
+  <div class="wrap">
+    <!-- Header -->
+    <header class="site-header" role="banner" aria-label="Site header">
+      <div class="brand" title="Rahul Wasan">
+        <div class="avatar" aria-hidden="true">RW</div>
+        <div class="title">
+          <h1>Rahul Wasan</h1>
+          <p>Lead Consultant • HCL Technologies — Delhi, India</p>
+        </div>
       </div>
-    </section>
 
-    <section id="projects">
-      <h3>Highlighted Projects</h3>
-      <div class="projects-grid">
-        <div class="project-card"><h4>BBC Studios Support Suite</h4><p>Led BAU operations and enhancements for 30+ enterprise apps, integrating Azure services and GitHub Copilot-driven automation.</p></div>
-        <div class="project-card"><h4>Actuarial Analysis Tool (Aetna US)</h4><p>Modernized frontend using Angular 7 and refactored backend APIs with lazy loading to optimize response times by 40%.</p></div>
-        <div class="project-card"><h4>Enquiry Management System</h4><p>Developed in .NET MVC with Bootstrap UI; implemented search and reporting features improving usability for Akash Education Services.</p></div>
+      <div class="top-controls" role="toolbar" aria-label="Top controls">
+        <a class="btn ghost" href="mailto:rahul.wasan@yahoo.com" title="Email Rahul">📧 rahul.wasan@yahoo.com</a>
+        <a class="btn" href="https://www.linkedin.com/in/rahul-wasan-70465278/" target="_blank" rel="noopener" title="LinkedIn">🔗 LinkedIn</a>
+
+        <!-- Theme toggle (dark default) -->
+        <button id="themeBtn" class="icon-btn" title="Toggle light/dark" aria-pressed="false">🌓</button>
+
+        <!-- Mobile hamburger -->
+        <div class="nav-toggle">
+          <button id="hamburger" class="hamburger" aria-label="Open menu" aria-expanded="false">☰</button>
+        </div>
       </div>
-    </section>
+    </header>
 
-    <section id="experience">
-      <h3>Work Experience</h3>
-      <div class="exp-item"><h4>Lead Consultant | HCL Technologies</h4><span>Nov 2021 – Present, Delhi</span>
-        <ul><li>Leading BAU operations for BBC Studios UK across 30+ applications with a team of 10 engineers.</li>
-        <li>Implemented authentication via Azure AD and JWT, and integrated SonarQube for code quality.</li>
-        <li>Trained team on GitHub Copilot agentic mode to boost productivity.</li>
-        <li>Designed Azure SQL Data Warehouse and pipelines using ADF.</li></ul></div>
+    <!-- Navbar (desktop) -->
+    <div class="navbar" role="navigation" aria-label="Primary navigation">
+      <nav class="primary" aria-hidden="false">
+        <a href="#summary" class="nav-link active">Home</a>
+        <a href="#skills" class="nav-link">Skills</a>
+        <a href="#projects" class="nav-link">Projects</a>
+        <a href="#experience" class="nav-link">Experience</a>
+        <a href="#education" class="nav-link">Education</a>
+        <a href="#awards" class="nav-link">Awards</a>
+        <a href="#contact" class="nav-link">Contact</a>
+      </nav>
+    </div>
 
-      <div class="exp-item"><h4>Technical Lead | Sopra Steria</h4><span>Sep 2019 – Nov 2021, Noida</span>
-        <ul><li>Enhanced ATTS product using .NET MVC and Angular; implemented JWT-based client-side authentication.</li>
-        <li>Led PI planning, estimation, and code review sessions.</li></ul></div>
+    <!-- Drawer for mobile navigation (hidden by default; toggled via JS) -->
+    <div id="drawer" class="drawer" aria-hidden="true" style="display:none">
+      <div class="backdrop" id="drawerBackdrop"></div>
+      <div class="panel" role="dialog" aria-modal="true" aria-label="Navigation panel" style="position:relative;z-index:2">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px">
+          <strong style="font-size:1rem">Navigation</strong>
+          <button id="drawerClose" class="icon-btn" aria-label="Close menu">✕</button>
+        </div>
+        <nav style="margin-top:8px">
+          <a href="#summary" class="drawer-link">Home</a>
+          <a href="#skills" class="drawer-link">Skills</a>
+          <a href="#projects" class="drawer-link">Projects</a>
+          <a href="#experience" class="drawer-link">Experience</a>
+          <a href="#education" class="drawer-link">Education</a>
+          <a href="#awards" class="drawer-link">Awards</a>
+          <a href="#contact" class="drawer-link">Contact</a>
+        </nav>
+      </div>
+    </div>
 
-      <div class="exp-item"><h4>Senior Business Analyst | EXL Services</h4><span>Apr 2018 – Sep 2019, Noida</span>
-        <ul><li>Managed and upgraded IBNR tool for actuarial analysis; migrated frontend from AngularJS to Angular 7.</li>
-        <li>Optimized API architecture with lazy loading for performance gains.</li></ul></div>
+    <!-- Main layout -->
+    <main class="layout" id="main">
+      <!-- Sidebar (left column) -->
+      <aside>
+        <div class="card">
+          <h2 class="section-title">Professional Summary</h2>
+          <p class="lead" id="summary">Results-driven Lead Consultant with 12+ years of experience leading global, cross-functional teams to architect, build, and deliver enterprise-grade software solutions. Skilled in Agile delivery, cloud modernization, and AI-assisted development with proven success managing engineers, optimizing SDLC processes, and aligning technology initiatives with business goals.</p>
+          <hr style="opacity:0.06;margin:12px 0;border:none;height:1px;background:linear-gradient(to right,transparent,var(--glass),transparent)" />
+          <div style="display:flex;gap:8px;flex-wrap:wrap">
+            <a class="btn ghost" href="tel:+919716664404">📞 +91-9716664404</a>
+            <a class="btn ghost" href="mailto:rahul.wasan@yahoo.com">✉️ Email</a>
+          </div>
+        </div>
 
-      <div class="exp-item"><h4>Sr. Associate - Technology | Synechron</h4><span>Jun 2015 – Mar 2018, Pune</span>
-        <ul><li>Developed reusable components and implemented custom MVC filters and model binding.</li></ul></div>
+        <div class="card" style="margin-top:12px">
+          <h2 class="section-title">Skills</h2>
+          <div class="skills-grid" id="skills" style="margin-top:10px">
+            <div class="skill"><strong>Backend</strong><ul><li>.NET 6/8, .NET Core, C#, Web API, GraphQL</li></ul></div>
+            <div class="skill"><strong>Frontend</strong><ul><li>Angular, TypeScript, JavaScript, CSS, HTML, PrimeNG</li></ul></div>
+            <div class="skill"><strong>AI Tools</strong><ul><li>GitHub Copilot (Agentic), Microsoft Copilot</li></ul></div>
+            <div class="skill"><strong>Databases</strong><ul><li>SQL Server, Azure SQL, MongoDB</li></ul></div>
+            <div class="skill"><strong>Cloud & DevOps</strong><ul><li>Azure, Terraform, TeamCity, Octopus, ADF</li></ul></div>
+            <div class="skill"><strong>Mgmt</strong><ul><li>Azure Kanban, JIRA, VersionOne</li></ul></div>
+          </div>
+        </div>
 
-      <div class="exp-item"><h4>Software Developer | CPM India</h4><span>Dec 2014 – May 2015, Delhi</span>
-        <ul><li>Created .NET Web APIs and optimized stored procedures based on business requirements.</li></ul></div>
+        <div class="card" style="margin-top:12px">
+          <h2 class="section-title">Education & Certs</h2>
+          <ul style="margin-top:10px;color:var(--muted);">
+            <li><strong>B.Tech (IT)</strong> — Kurukshetra University (2009–2013)</li>
+            <li>Microsoft Certified: Azure Fundamentals — Jan 2023</li>
+            <li>AWS Certified Cloud Practitioner — Jun 2022</li>
+          </ul>
+        </div>
+      </aside>
 
-      <div class="exp-item"><h4>.NET Developer | Radix Infor Solutions</h4><span>Mar 2014 – Dec 2014, Delhi</span>
-        <ul><li>Developed Enquiry Management System using .NET MVC and Bootstrap.</li></ul></div>
-    </section>
+      <!-- Main content (right column) -->
+      <section>
+        <div class="card" id="projects">
+          <h2 class="section-title">Highlighted Projects</h2>
+          <div class="projects-grid" style="margin-top:12px">
+            <article class="project">
+              <h4>BBC Studios Support Suite</h4>
+              <p style="color:var(--muted)">Led BAU operations and enhancements for 30+ enterprise apps, integrating Azure services and GitHub Copilot-driven automation.</p>
+            </article>
 
-    <section id="education">
-      <h3>Education & Certifications</h3>
-      <ul>
-        <li><strong>Bachelor of Technology in IT</strong> – Kurukshetra University (2009–2013)</li>
-        <li>Microsoft Certified: Azure Fundamentals – Jan 2023</li>
-        <li>AWS Certified Cloud Practitioner – Jun 2022</li>
-      </ul>
-    </section>
+            <article class="project">
+              <h4>Actuarial Analysis Tool (Aetna US)</h4>
+              <p style="color:var(--muted)">Modernized frontend using Angular, refactored APIs with lazy-loading to optimize response times by ~40%.</p>
+            </article>
 
-    <section id="awards">
-      <h3>Awards</h3>
-      <ul>
-        <li>Surpass Award – Synechron</li>
-        <li>Pinnacle Award – Sopra Steria</li>
-        <li>2 Good – HCL Technologies</li>
-      </ul>
-    </section>
+            <article class="project">
+              <h4>Enquiry Management System</h4>
+              <p style="color:var(--muted)">Developed in .NET MVC with Bootstrap UI; implemented search and reporting features improving usability for Akash Education Services.</p>
+            </article>
 
-    <section id="contact">
-      <h3>Contact</h3>
-      <p>If you'd like to collaborate or get in touch, feel free to reach out via <a href="mailto:rahul.wasan@yahoo.com">rahul.wasan@yahoo.com</a> or connect on <a href="https://www.linkedin.com/in/rahul-wasan-70465278/">LinkedIn</a>.</p>
-    </section>
+            <article class="project">
+              <h4>Platform Modernization</h4>
+              <p style="color:var(--muted)">Designed Azure SQL Data Warehouse and pipelines using ADF; implemented JWT/Azure AD auth for multiple applications.</p>
+            </article>
+          </div>
+        </div>
 
-  </main>
+        <div class="card" id="experience" style="margin-top:12px">
+          <h2 class="section-title">Work Experience</h2>
+          <div class="exp-list" style="margin-top:10px">
+            <div class="exp-item">
+              <h4>Lead Consultant • HCL Technologies</h4>
+              <span>Nov 2021 – Present • Delhi</span>
+              <ul style="margin-top:8px;color:var(--muted)"><li>Leading BAU operations for BBC Studios UK across 30+ applications with a team of 10 engineers.</li>
+                <li>Implemented authentication via Azure AD and JWT, integrated SonarQube for code quality and CI/CD pipelines.</li>
+              </ul>
+            </div>
 
-  <footer>
-    <p>© 2025 Rahul Wasan | <a href="mailto:rahul.wasan@yahoo.com">Contact Me</a></p>
-  </footer>
+            <div class="exp-item">
+              <h4>Technical Lead • Sopra Steria</h4>
+              <span>Sep 2019 – Nov 2021 • Noida</span>
+              <ul style="margin-top:8px;color:var(--muted)"><li>Enhanced ATTS product using .NET MVC + Angular; led PI planning and code reviews.</li></ul>
+            </div>
+
+            <div class="exp-item">
+              <h4>Sr Business Analyst • EXL Services</h4>
+              <span>Apr 2018 – Sep 2019 • Noida</span>
+              <ul style="margin-top:8px;color:var(--muted)"><li>Managed and upgraded IBNR tool; migrated frontend from AngularJS to Angular 7.</li></ul>
+            </div>
+
+            <div class="exp-item">
+              <h4>Sr. Associate - Technology • Synechron</h4>
+              <span>Jun 2015 – Mar 2018 • Pune</span>
+              <ul style="margin-top:8px;color:var(--muted)"><li>Developed reusable components and custom MVC filters/model binding.</li></ul>
+            </div>
+
+            <div class="exp-item">
+              <h4>Software Developer • CPM India</h4>
+              <span>Dec 2014 – May 2015 • Delhi</span>
+            </div>
+
+            <div class="exp-item">
+              <h4>.NET Developer • Radix Infor Solutions</h4>
+              <span>Mar 2014 – Dec 2014 • Delhi</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="card" id="awards" style="margin-top:12px">
+          <h2 class="section-title">Awards</h2>
+          <ul style="margin-top:8px;color:var(--muted)">
+            <li>Surpass Award – Synechron</li>
+            <li>Pinnacle Award – Sopra Steria</li>
+            <li>2 Good – HCL Technologies</li>
+          </ul>
+        </div>
+
+        <div class="card" id="contact" style="margin-top:12px">
+          <h2 class="section-title">Contact</h2>
+          <p style="color:var(--muted);margin-top:8px">If you'd like to collaborate or get in touch, reach out via <a href="mailto:rahul.wasan@yahoo.com">rahul.wasan@yahoo.com</a> or connect on <a href="https://www.linkedin.com/in/rahul-wasan-70465278/" target="_blank" rel="noopener">LinkedIn</a>.</p>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      © 2025 Rahul Wasan • <a href="mailto:rahul.wasan@yahoo.com">Contact Me</a>
+    </footer>
+  </div>
 
   <!-- Chat widget launcher -->
   <button class="chat-launch" id="chatToggle" aria-label="Open chat">💬</button>
@@ -157,8 +433,8 @@
     <div class="chat-header">
       <div>Chat with Rahul</div>
       <div>
-        <button id="chatClear" title="Clear conversation" style="background:transparent;border:none;color:#fff;cursor:pointer;margin-right:8px">🗑</button>
-        <button id="chatClose" style="background:transparent;border:none;color:#fff;cursor:pointer">✕</button>
+        <button id="chatClear" title="Clear conversation" style="background:transparent;border:none;color:var(--text);cursor:pointer;margin-right:8px">🗑</button>
+        <button id="chatClose" style="background:transparent;border:none;color:var(--text);cursor:pointer">✕</button>
       </div>
     </div>
     <div class="chat-messages" id="chatMessages" aria-live="polite"></div>
@@ -168,47 +444,104 @@
     </div>
   </div>
 
-  <!-- Floating theme toggle (persisted) -->
-  <button id="themeBtn" class="chat-launch" style="right:92px;">🌓</button>
-
   <script>
-    /* ---------------- Theme handling ---------------- */
+    // ---------------- Theme handling (dark default) ----------------
     (function(){
-      const saved = localStorage.getItem('theme')||'light';
-      document.documentElement.setAttribute('data-theme', saved==='dark'?'dark':'');
+      const root = document.documentElement;
+      // Start default dark (document already set to data-theme="dark")
+      const saved = localStorage.getItem('theme'); // 'light' or 'dark' or null
+      if(saved){
+        root.setAttribute('data-theme', saved);
+        document.getElementById('themeBtn').setAttribute('aria-pressed', saved === 'dark');
+      } else {
+        // default dark already in HTML attribute
+        root.setAttribute('data-theme', 'dark');
+        document.getElementById('themeBtn').setAttribute('aria-pressed', 'true');
+      }
+
       const themeBtn = document.getElementById('themeBtn');
-      themeBtn.addEventListener('click',()=>{
-        const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
-        document.documentElement.setAttribute('data-theme', isDark ? '' : 'dark');
-        localStorage.setItem('theme', isDark ? 'light' : 'dark');
+      themeBtn.addEventListener('click', ()=>{
+        const current = root.getAttribute('data-theme') === 'light' ? 'light' : 'dark';
+        const next = current === 'light' ? 'dark' : 'light';
+        root.setAttribute('data-theme', next);
+        localStorage.setItem('theme', next);
+        themeBtn.setAttribute('aria-pressed', next === 'dark');
       });
     })();
 
-    /* ---------------- Active nav links on scroll ---------------- */
+    // ---------------- Smooth active nav highlighting & scroll ----------------
     (function(){
-      const links = document.querySelectorAll('nav a');
-      function onScroll(){
-        const offset = window.scrollY + 120;
-        links.forEach(l=>{
-          const s = document.querySelector(l.getAttribute('href'));
-          if(!s) return;
-          if(s.offsetTop <= offset && s.offsetTop + s.offsetHeight > offset){
-            links.forEach(x=>x.classList.remove('active')); l.classList.add('active');
+      const links = Array.from(document.querySelectorAll('a.nav-link'));
+      const drawerLinks = Array.from(document.querySelectorAll('.drawer-link'));
+      function setActiveHash(hash){
+        document.querySelectorAll('.nav-link').forEach(a=>a.classList.remove('active'));
+        const match = document.querySelector('.nav-link[href="' + hash + '"]');
+        if(match) match.classList.add('active');
+      }
+      // click handlers: close drawer on mobile when navigating
+      drawerLinks.forEach(l => l.addEventListener('click', ()=>{
+        closeDrawer();
+        // set active quickly
+        setTimeout(()=> setActiveHash(l.getAttribute('href')), 250);
+      }));
+      links.forEach(l => l.addEventListener('click', ()=> setActiveHash(l.getAttribute('href')) ));
+
+      // highlight on scroll using intersection observer
+      const sections = document.querySelectorAll('main section, #summary, #skills, #projects, #experience, #education, #awards, #contact');
+      const obs = new IntersectionObserver((entries)=>{
+        entries.forEach(e=>{
+          if(e.isIntersecting){
+            const id = e.target.id ? '#' + e.target.id : '#' + e.target.querySelector('[id]')?.id;
+            if(id) setActiveHash(id);
           }
         });
-      }
-      window.addEventListener('scroll', onScroll); onScroll();
+      },{threshold:0.35});
+      // Observe main direct children sections & elements with ids in main content
+      document.querySelectorAll('#main [id]').forEach(el => obs.observe(el));
     })();
 
-    /* ---------------- Scroll reveal using IntersectionObserver ---------------- */
+    // ---------------- Drawer (mobile nav) ----------------
     (function(){
-      const obs = new IntersectionObserver(entries=>{
-        entries.forEach(e=>{ if(e.isIntersecting) e.target.classList.add('visible'); });
-      },{threshold:0.18});
-      document.querySelectorAll('main section').forEach(s=>obs.observe(s));
+      const hamburger = document.getElementById('hamburger');
+      const drawer = document.getElementById('drawer');
+      const backdrop = document.getElementById('drawerBackdrop');
+      const closeBtn = document.getElementById('drawerClose');
+
+      function openDrawer(){
+        drawer.style.display = 'flex';
+        drawer.setAttribute('aria-hidden', 'false');
+        hamburger.setAttribute('aria-expanded', 'true');
+      }
+      function closeDrawer(){
+        drawer.style.display = 'none';
+        drawer.setAttribute('aria-hidden', 'true');
+        hamburger.setAttribute('aria-expanded', 'false');
+      }
+      hamburger.addEventListener('click', ()=> openDrawer());
+      closeBtn.addEventListener('click', ()=> closeDrawer());
+      backdrop.addEventListener('click', ()=> closeDrawer());
+      // close on escape
+      document.addEventListener('keydown', e => { if(e.key === 'Escape') closeDrawer(); });
     })();
 
-    /* ---------------- Chat widget: n8n integration with sessionId, timestamps & streaming ---------------- */
+    // ---------------- Section reveal (simple) ----------------
+    (function(){
+      // fade-in for cards on scroll
+      const cards = document.querySelectorAll('.card, .project, .exp-item');
+      const o = new IntersectionObserver((entries)=>{
+        entries.forEach(e => {
+          if(e.isIntersecting) e.target.style.opacity = 1, e.target.style.transform = 'translateY(0)';
+        });
+      },{threshold:0.12});
+      cards.forEach(c=>{
+        c.style.opacity = 0;
+        c.style.transform = 'translateY(18px)';
+        c.style.transition = 'opacity 520ms var(--transition), transform 520ms var(--transition)';
+        o.observe(c);
+      });
+    })();
+
+    // ---------------- Chat widget: retains existing behavior ----------------
     (function(){
       const chatToggle = document.getElementById('chatToggle');
       const chatWindow = document.getElementById('chatWindow');
@@ -223,9 +556,8 @@
 
       // sessionId persists so n8n can maintain context if you implement it server-side
       let sessionId = localStorage.getItem('portfolio_chat_session');
-      if(!sessionId){ sessionId = crypto.randomUUID ? crypto.randomUUID() : ('sid-' + Date.now()); localStorage.setItem('portfolio_chat_session', sessionId); }
+      if(!sessionId){ sessionId = (crypto && crypto.randomUUID) ? crypto.randomUUID() : ('sid-' + Date.now()); localStorage.setItem('portfolio_chat_session', sessionId); }
 
-      // Load conversation from sessionStorage (client-side persistence)
       function loadConversation(){
         const conv = sessionStorage.getItem('portfolio_chat_conv_' + sessionId);
         if(!conv) return;
@@ -241,12 +573,10 @@
         sessionStorage.setItem('portfolio_chat_conv_' + sessionId, JSON.stringify(msgs));
       }
       function formatTime(ts){
-        const d = new Date(ts);
-        return d.toLocaleString(); // user locale-friendly
+        const d = new Date(Number(ts));
+        return d.toLocaleString();
       }
-
       function renderMessage(msg, save=true){
-        // msg = { who: 'user'|'bot', text: '...', ts: 12345 }
         const wrap = document.createElement('div');
         wrap.setAttribute('data-msg', '1');
         wrap.setAttribute('data-who', msg.who);
@@ -257,14 +587,13 @@
         b.textContent = msg.text;
         wrap.appendChild(b);
         const m = document.createElement('div');
-        m.className = 'meta ' + (document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : '');
+        m.className = 'meta';
         m.textContent = formatTime(msg.ts);
         wrap.appendChild(m);
         chatMessages.appendChild(wrap);
         chatMessages.scrollTop = chatMessages.scrollHeight;
         if(save) saveConversation();
       }
-
       function appendTypingIndicator(){
         const wrap = document.createElement('div');
         wrap.className = 'msg bot typing';
@@ -277,9 +606,7 @@
         const t = chatMessages.querySelector('[data-typing]');
         if(t) t.remove();
       }
-
       async function streamTextToMessage(streamText){
-        // Create container
         const wrap = document.createElement('div');
         wrap.setAttribute('data-msg', '1');
         wrap.setAttribute('data-who', 'bot');
@@ -287,7 +614,7 @@
         b.className = 'msg bot';
         wrap.appendChild(b);
         const m = document.createElement('div');
-        m.className = 'meta ' + (document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : '');
+        m.className = 'meta';
         const ts = Date.now();
         m.textContent = formatTime(ts);
         wrap.setAttribute('data-text', '');
@@ -296,20 +623,18 @@
         chatMessages.appendChild(wrap);
         chatMessages.scrollTop = chatMessages.scrollHeight;
 
-        // stream characters with small delay to simulate streaming
         let idx = 0;
         const step = () => {
           if(idx >= streamText.length){
             saveConversation();
             return;
           }
-          const nextChunk = streamText.slice(idx, idx+6); // chunk size
+          const nextChunk = streamText.slice(idx, idx+6);
           b.textContent = (b.textContent || '') + nextChunk;
           wrap.setAttribute('data-text', b.textContent);
           idx += nextChunk.length;
           chatMessages.scrollTop = chatMessages.scrollHeight;
-          // adapt speed: faster for larger messages
-          setTimeout(step, 20 + Math.random()*40);
+          setTimeout(step, 20 + Math.random()*30);
         };
         step();
       }
@@ -319,7 +644,6 @@
         const ts = Date.now();
         renderMessage({ who: 'user', text, ts });
         chatInput.value = '';
-        // show typing indicator
         appendTypingIndicator();
         try{
           const payload = { message: text, sessionId, source: 'portfolio-website' };
@@ -332,9 +656,7 @@
             return;
           }
           const data = await res.json();
-          // Support multiple possible response shapes
           const reply = data.reply || (data.body && data.body.reply) || (typeof data === 'string' ? data : JSON.stringify(data));
-          // If you want streaming from the server, the server must send chunks. Here we simulate streaming rendering for any reply string.
           await streamTextToMessage(String(reply));
         }catch(err){
           removeTypingIndicator();
@@ -348,12 +670,24 @@
       chatClear.addEventListener('click', ()=>{ if(confirm('Clear local conversation?')){ sessionStorage.removeItem('portfolio_chat_conv_' + sessionId); chatMessages.innerHTML=''; } });
       chatSend.addEventListener('click', sendMessage);
       chatInput.addEventListener('keydown', e=>{ if(e.key === 'Enter') sendMessage(); });
-
-      // Accessibility: close on Escape
       document.addEventListener('keydown', e=>{ if(e.key === 'Escape') chatWindow.style.display='none'; });
 
-      // Load previous messages (client persisted)
       loadConversation();
+    })();
+
+    // ---------------- Accessibility: smooth scroll for internal anchors ----------------
+    (function(){
+      document.querySelectorAll('a[href^="#"]').forEach(a => {
+        a.addEventListener('click', function(e){
+          const target = document.querySelector(this.getAttribute('href'));
+          if(target){
+            e.preventDefault();
+            target.scrollIntoView({behavior:'smooth',block:'start'});
+            // update hash without jumping
+            history.replaceState(null,'',this.getAttribute('href'));
+          }
+        });
+      });
     })();
   </script>
 </body>
